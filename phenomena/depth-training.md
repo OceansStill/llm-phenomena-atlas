@@ -182,12 +182,12 @@
 
 **观察对象**　固定输入，逐轮读取同一解码头给出的答案或棋盘。
 
-递推模型在某一轮已经解对整道题，后续状态更新仍可能覆盖正确答案。在更长计算预算下，只看最终平均准确率会把解对新题和丢失已有解混在一起。
+在循环 Transformer 中，后续的隐状态更新可能覆盖已经正确的中间判断，甚至把完整解改错。Li 等在 InfiLoop v2 中称这一现象为 latent overthinking。
 
-**怎么测**　让同一批样本在首次答对后继续运行。记录各轮精确正确率、首次正确轮次和正确→错误的转移，并报告首次正确后连续 k 轮始终正确的样本比例。在相同的额外轮数 k 下比较样本，并单独标注提前停止的轨迹。
+**怎么测**　论文图 1(c) 以各模型首次解对该题的轮次为起点，统计再运行 k 次外层更新时棋盘仍然正确的比例。复测时还可以单独统计这 k 轮每一轮都正确的比例，并记录中途改错后又改对的样本。
 
-**证据范围**　Li 等在 Sudoku-Extreme 上逐轮检查 TRM 等递推模型。TRM 的整盘准确率从 468 次 Transformer 层执行时的 62.2% 降至 1,872 次时的 58.1%。Bansal 等在更早的递推算法任务上也观察到过度迭代导致退化。
+**证据范围**　InfiLoop v1（2026-10-08）已报告解会被后续更新改错。v2（2026-10-16）在引言和第 2 节使用完整术语。图 1(a) 中，TRM 在 Sudoku-Extreme 上的整盘准确率从执行 468 层时的 62.2% 降至执行 1,872 层时的 58.1%。图 1(c) 只统计两个模型均在前 36 次外层更新内解出的题。在首次解对后的第 36 次外层更新，TRM 已丢失其中 19.7% 的解。Bansal 等在递推算法任务中使用的术语是 overthinking。
 
-[Li 等（arXiv 2026）](https://arxiv.org/abs/2610.11570) · [Bansal 等（NeurIPS 2022）](https://papers.neurips.cc/paper_files/paper/2022/hash/7f70331dbe58ad59d83941dfa7d975aa-Abstract-Conference.html)
+[Li 等（InfiLoop v2，术语出处）](https://arxiv.org/abs/2610.11570v2) · [Bansal 等（NeurIPS 2022，overthinking 的前序工作）](https://papers.neurips.cc/paper_files/paper/2022/hash/7f70331dbe58ad59d83941dfa7d975aa-Abstract-Conference.html)
 
 相关条目　[固定点附近的方向稳定性](../diagnostics.md#directional)

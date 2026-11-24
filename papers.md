@@ -158,6 +158,8 @@
 
   对应条目　[Latent Overthinking](phenomena/depth-training.md#latent-overthinking)
 
+  作者把递推网络在过多迭代后表现退化称为 overthinking。InfiLoop v2 在引言中明确引用这篇论文说明术语由来。
+
 <a id="paper-repair"></a>
 
 - **[Explorations of Self-Repair in Language Models](https://proceedings.mlr.press/v235/rushing24a.html)**　Rushing 与 Nanda，ICML 2024。
@@ -298,9 +300,11 @@
 
 <a id="paper-infiloop"></a>
 
-- **[Scaling to Tens of Thousands of Test-Time Iterations with Loop-Native Attention Residuals](https://arxiv.org/abs/2610.11570)**　Li 等，arXiv 2026。
+- **[Scaling to Tens of Thousands of Test-Time Iterations with Loop-Native Attention Residuals](https://arxiv.org/abs/2610.11570v2)**　Li 等，arXiv 2026。
 
   对应条目　[Latent Overthinking](phenomena/depth-training.md#latent-overthinking)
+
+  2026-10-08 的 v1 已描述正确解被后续迭代改错。2026-10-16 的 v2 在引言明确命名 latent overthinking，并把它写入第 2 节标题。[v1 原文第 2 页](https://arxiv.org/pdf/2610.11570v1#page=2) · [v2 原文第 2 页](https://arxiv.org/pdf/2610.11570v2#page=2)
 
 <a id="paper-huginn-orbits"></a>
 
