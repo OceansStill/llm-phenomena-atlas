@@ -143,3 +143,51 @@
 **证据范围**　Chen 等用理论、训练实验和只改反向路径的干预检验这一机制。论文图 2 中，首 token 在 K 和 V 路径上的梯度范数跨多个检查点出现尖峰，V 路径尤其明显。比较位置即可识别这种集中，比较同一参数在不同训练步的变化则用于识别 Gradient Spikes。
 
 [Chen 等（arXiv 2026）](https://arxiv.org/abs/2603.17771)
+
+<a id="cyclic-fixed-points"></a>
+
+## Layer-wise Cyclic Fixed Points · 循环块内各层跨轮收敛到各自的状态
+
+**观察对象**　重复同一多层块时，第 t 轮第 ℓ 层的隐藏状态。
+
+当整个循环块趋于固定点时，每个内部层在下一轮到达该层时也可以回到自己的状态。块内不同层可以各停在不同位置，于是把所有层按执行顺序展开后，会看到一条重复的闭合轨迹。
+
+**怎么测**　固定输入和 token，在相同层位比较相邻两轮的状态距离，再比较同一轮内相邻层的距离。画出按层位分组的轨迹，检查跨轮距离缩小后，块内各层是否仍彼此可分。
+
+**证据范围**　Blayney 等给出了以块边界收敛为前提的命题，并在 Retrofitted Llama 的隐藏状态中展示了实例。逐层跨轮的注意力图也呈重复结构。能否一直输出正确答案要另做读出测试。
+
+[Blayney 等（NeurIPS 2026）](https://arxiv.org/abs/2604.11791)
+
+相关条目　[轮末状态跨轮绕行](depth-training.md#latent-orbits) · [继续迭代后改错答案](depth-training.md#latent-overthinking)
+
+<a id="latent-orbits"></a>
+
+## Latent Orbits · 在同一个循环边界观察到的隐状态绕行
+
+**观察对象**　固定 token，在每一轮结束时读取的同一隐藏向量。
+
+对部分 token，连续几轮的状态在潜在空间中反复绕行。即使每次都在同一块边界取样，这种轨迹也会出现。
+
+**怎么测**　固定 token 和轮末读出位置，把各轮隐藏状态投影到同一组主成分上。再在原空间比较间隔不同轮数的状态距离，检查是否反复接近先前状态以及振幅是否持续。
+
+**证据范围**　Geiping 等在 Huginn-3.5B 的一个 GSM8K 输入中，观察到数字 3 的轨迹在多对主成分上绕行。有限轮次中的轨迹支持这一观测，严格的极限环还需动力学证据。
+
+[Geiping 等（NeurIPS 2025）](https://proceedings.neurips.cc/paper_files/paper/2025/hash/3b01972cf31e6fa0fe29e4b8b5c2a0a1-Abstract-Conference.html) · [Blayney 等（NeurIPS 2026）](https://arxiv.org/abs/2604.11791)
+
+相关条目　[固定层位的跨轮收敛](depth-training.md#cyclic-fixed-points)
+
+<a id="latent-overthinking"></a>
+
+## Latent Overthinking · 继续循环会把已经正确的解改错
+
+**观察对象**　固定输入，逐轮读取同一解码头给出的答案或棋盘。
+
+递推模型在某一轮已经解对整道题，后续状态更新仍可能覆盖正确答案。在更长计算预算下，只看最终平均准确率会把解对新题和丢失已有解混在一起。
+
+**怎么测**　让同一批样本在首次答对后继续运行。记录各轮精确正确率、首次正确轮次和正确→错误的转移，并报告首次正确后连续 k 轮始终正确的样本比例。在相同的额外轮数 k 下比较样本，并单独标注提前停止的轨迹。
+
+**证据范围**　Li 等在 Sudoku-Extreme 上逐轮检查 TRM 等递推模型。TRM 的整盘准确率从 468 次 Transformer 层执行时的 62.2% 降至 1,872 次时的 58.1%。Bansal 等在更早的递推算法任务上也观察到过度迭代导致退化。
+
+[Li 等（arXiv 2026）](https://arxiv.org/abs/2610.11570) · [Bansal 等（NeurIPS 2022）](https://papers.neurips.cc/paper_files/paper/2022/hash/7f70331dbe58ad59d83941dfa7d975aa-Abstract-Conference.html)
+
+相关条目　[固定点附近的方向稳定性](../diagnostics.md#directional)

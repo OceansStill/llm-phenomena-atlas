@@ -1,6 +1,6 @@
 # 原始论文索引
 
-共 49 篇。前七篇对应最初的阅读清单，其余按题名字母排序。每篇都链接到原文及本仓库相关条目。标注 arXiv 的条目使用预印本记录及首次发布年份。
+共 66 篇。前七篇对应最初的阅读清单，其余按题名字母排序。每篇都链接到原文及本仓库相关条目。标注 arXiv 的条目使用预印本记录及首次发布年份。
 
 [返回现象目录](README.md) · [测量与干预](diagnostics.md)
 
@@ -50,6 +50,12 @@
 
 ## 其他现象与诊断文献
 
+<a id="paper-cyclic-points"></a>
+
+- **[A Mechanistic Analysis of Looped Reasoning Language Models](https://arxiv.org/abs/2604.11791)**　Blayney 等，NeurIPS 2026。
+
+  对应条目　[Layer-wise Cyclic Fixed Points](phenomena/depth-training.md#cyclic-fixed-points) · [Latent Orbits](phenomena/depth-training.md#latent-orbits)
+
 <a id="paper-resink"></a>
 
 - **[A Unified View of Attention and Residual Sinks: Outlier-Driven Rescaling is Essential for Large Language Model Training](https://proceedings.colm.cc/paper_files/paper/2026/hash/19f10adb6749b0c9f1ff7610bd01d44d-Abstract-Conference.html)**　Qiu 等，COLM 2026。
@@ -98,17 +104,41 @@
 
   对应条目　[Gradient Sinks](phenomena/depth-training.md#gradient-sinks)
 
+<a id="paper-bert-busters"></a>
+
+- **[BERT Busters: Outlier Dimensions that Disrupt Transformers](https://aclanthology.org/2021.findings-acl.300/)**　Kovaleva 等，Findings of ACL-IJCNLP 2021。
+
+  对应条目　[LayerNorm Outlier Dimensions](phenomena/activations.md#layernorm-outliers)
+
+<a id="paper-softmax-rank"></a>
+
+- **[Breaking the Softmax Bottleneck: A High-Rank RNN Language Model](https://arxiv.org/abs/1711.03953)**　Yang 等，ICLR 2018。
+
+  对应条目　[Softmax Bottleneck](phenomena/routing-output.md#softmax-bottleneck)
+
 <a id="paper-entropyneur"></a>
 
 - **[Confidence Regulation Neurons in Language Models](https://proceedings.neurips.cc/paper_files/paper/2024/hash/e21955c93dede886af1d0d362c756757-Abstract-Conference.html)**　Stolfo 等，NeurIPS 2024。
 
-  对应条目　[Entropy Neurons](phenomena/activations.md#entropy-neurons)
+  对应条目　[Entropy Neurons](phenomena/activations.md#entropy-neurons) · [Token Frequency Neurons](phenomena/activations.md#frequency-neurons)
+
+<a id="paper-copy-suppress"></a>
+
+- **[Copy Suppression: Comprehensively Understanding a Motif in Language Model Attention Heads](https://aclanthology.org/2024.blackboxnlp-1.22/)**　McDougall 等，BlackboxNLP 2024。
+
+  对应条目　[Copy Suppression](phenomena/attention.md#copy-suppression)
 
 <a id="paper-layerroute"></a>
 
 - **[Delta Attention Residuals](https://arxiv.org/abs/2605.18855)**　Luo 等，arXiv 2026。
 
   对应条目　[Routing Collapse across Depth](phenomena/depth-training.md#depth-routing-collapse) · [Attention Residual 的来源读取与消融](diagnostics.md#source-reads)
+
+<a id="paper-attn-output-rank"></a>
+
+- **[Dimensional Collapse in Transformer Attention Outputs: A Challenge for Sparse Dictionary Learning](https://proceedings.mlr.press/v306/wang26bh.html)**　Wang 等，ICML 2026。
+
+  对应条目　[Dimensional Collapse in Attention Outputs](phenomena/representations.md#attention-output-collapse)
 
 <a id="paper-sinks"></a>
 
@@ -122,11 +152,29 @@
 
   对应条目　[逐层预测轨迹与答案翻转](diagnostics.md#lens)
 
+<a id="paper-overthinking"></a>
+
+- **[End-to-end Algorithm Synthesis with Recurrent Networks: Extrapolation without Overthinking](https://papers.neurips.cc/paper_files/paper/2022/hash/7f70331dbe58ad59d83941dfa7d975aa-Abstract-Conference.html)**　Bansal 等，NeurIPS 2022。
+
+  对应条目　[Latent Overthinking](phenomena/depth-training.md#latent-overthinking)
+
 <a id="paper-repair"></a>
 
 - **[Explorations of Self-Repair in Language Models](https://proceedings.mlr.press/v235/rushing24a.html)**　Rushing 与 Nanda，ICML 2024。
 
   对应条目　[Hydra Effect / Self-Repair](phenomena/depth-training.md#hydra-effect) · [激活替换与消融后的补偿](diagnostics.md#patching)
+
+<a id="paper-glitch"></a>
+
+- **[Fishing for Magikarp: Automatically Detecting Under-trained Tokens in Large Language Models](https://aclanthology.org/2024.emnlp-main.649/)**　Land 与 Bartolo，EMNLP 2024。
+
+  对应条目　[Under-trained Tokens / Glitch Tokens](phenomena/routing-output.md#undertrained-tokens)
+
+<a id="paper-found-middle"></a>
+
+- **[Found in the middle: Calibrating Positional Attention Bias Improves Long Context Utilization](https://aclanthology.org/2024.findings-acl.890/)**　Hsieh 等，Findings of ACL 2024。
+
+  对应条目　[U-Shaped Positional Attention Bias / Lost in the Middle](phenomena/attention.md#lost-in-the-middle)
 
 <a id="paper-anis"></a>
 
@@ -152,6 +200,12 @@
 
   对应条目　[Loop 的计算、保持与复用](diagnostics.md#retain)
 
+<a id="paper-head-linear"></a>
+
+- **[Linear Predictability of Attention Heads in Large Language Models](https://arxiv.org/abs/2603.13314)**　Shaikh 等，arXiv 2026。
+
+  对应条目　[Inter-head Linear Predictability](phenomena/attention.md#inter-head-predictability)
+
 <a id="paper-outliers"></a>
 
 - **[LLM.int8(): 8-bit Matrix Multiplication for Transformers at Scale](https://arxiv.org/abs/2208.07339)**　Dettmers 等，NeurIPS 2022。
@@ -163,6 +217,12 @@
 - **[LLMs Know More Than They Show: On the Intrinsic Representation of LLM Hallucinations](https://arxiv.org/abs/2410.02707)**　Orgad 等，ICLR 2025。
 
   对应条目　[正确性探针与外部行为](diagnostics.md#truth)
+
+<a id="paper-lost-middle"></a>
+
+- **[Lost in the Middle: How Language Models Use Long Contexts](https://aclanthology.org/2024.tacl-1.9/)**　Liu 等，TACL 2024。
+
+  对应条目　[U-Shaped Positional Attention Bias / Lost in the Middle](phenomena/attention.md#lost-in-the-middle)
 
 <a id="paper-unarg"></a>
 
@@ -181,6 +241,12 @@
 - **[Monitoring latent reasoning in looped language models](https://arxiv.org/abs/2610.18127)**　Olszowiec 等，arXiv 2026。
 
   对应条目　[固定点附近的方向稳定性与潜在推理监测](diagnostics.md#directional)
+
+<a id="paper-opt-neurons"></a>
+
+- **[Neurons in Large Language Models: Dead, N-gram, Positional](https://aclanthology.org/2024.findings-acl.75/)**　Voita 等，Findings of ACL 2024。
+
+  对应条目　[Dead Neurons](phenomena/activations.md#dead-neurons)
 
 <a id="paper-normformer"></a>
 
@@ -204,7 +270,7 @@
 
 - **[OpenMoE: An Early Effort on Open Mixture-of-Experts Language Models](https://proceedings.mlr.press/v235/xue24c.html)**　Xue 等，ICML 2024。
 
-  对应条目　[Drop-towards-the-End](phenomena/routing-output.md#drop-towards-end)
+  对应条目　[Drop-towards-the-End](phenomena/routing-output.md#drop-towards-end) · [Context-Independent Expert Specialization](phenomena/routing-output.md#context-independent-experts)
 
 <a id="paper-halawi"></a>
 
@@ -212,11 +278,35 @@
 
   对应条目　[逐层预测轨迹与答案翻转](diagnostics.md#lens)
 
+<a id="paper-rare-embeddings"></a>
+
+- **[Rare Tokens Degenerate All Tokens: Improving Neural Text Generation via Adaptive Gradient Gating for Rare Token Embeddings](https://aclanthology.org/2022.acl-long.3/)**　Yu 等，ACL 2022。
+
+  对应条目　[Token Embedding Degeneration](phenomena/representations.md#token-embedding-degeneration)
+
+<a id="paper-expert-context"></a>
+
+- **[Routing in Sparsely-gated Language Models responds to Context](https://aclanthology.org/2024.blackboxnlp-1.2/)**　Arnold 等，BlackboxNLP 2024。
+
+  对应条目　[Context-Independent Expert Specialization](phenomena/routing-output.md#context-independent-experts)
+
 <a id="paper-swiglu"></a>
 
 - **[Scaling FP8 training to trillion-token LLMs](https://proceedings.iclr.cc/paper_files/paper/2025/hash/f48b5133e89854a9e97cc22a6db83f25-Abstract-Conference.html)**　Fishman 等，ICLR 2025。
 
   对应条目　[SwiGLU Weight Alignment / Outlier Amplification](phenomena/activations.md#swiglu)
+
+<a id="paper-infiloop"></a>
+
+- **[Scaling to Tens of Thousands of Test-Time Iterations with Loop-Native Attention Residuals](https://arxiv.org/abs/2610.11570)**　Li 等，arXiv 2026。
+
+  对应条目　[Latent Overthinking](phenomena/depth-training.md#latent-overthinking)
+
+<a id="paper-huginn-orbits"></a>
+
+- **[Scaling up Test-Time Compute with Latent Reasoning: A Recurrent Depth Approach](https://proceedings.neurips.cc/paper_files/paper/2025/hash/3b01972cf31e6fa0fe29e4b8b5c2a0a1-Abstract-Conference.html)**　Geiping 等，NeurIPS 2025。
+
+  对应条目　[Latent Orbits](phenomena/depth-training.md#latent-orbits)
 
 <a id="paper-spread"></a>
 
@@ -241,6 +331,12 @@
 - **[StableMoE: Stable Routing Strategy for Mixture of Experts](https://aclanthology.org/2022.acl-long.489/)**　Dai 等，ACL 2022。
 
   对应条目　[Routing Fluctuation](phenomena/routing-output.md#routing-fluctuation)
+
+<a id="paper-switch"></a>
+
+- **[Switch Transformers: Scaling to Trillion Parameter Models with Simple and Efficient Sparsity](https://jmlr.org/papers/v23/21-0998.html)**　Fedus 等，JMLR 2022。
+
+  对应条目　[Expert Load Imbalance](phenomena/routing-output.md#expert-load-imbalance)
 
 <a id="paper-hydra"></a>
 
@@ -277,6 +373,12 @@
 - **[Weakening Neurons: An Input-Output Functionality in Transformers with Outsize Influence](https://aclanthology.org/2026.emnlp-main.455/)**　Gerstner 等，EMNLP 2026。
 
   对应条目　[Weakening Neurons](phenomena/activations.md#weakening) · [前馈单元活性分布](diagnostics.md#activity)
+
+<a id="paper-expert-counterfactual"></a>
+
+- **[When Are Experts Misrouted? Counterfactual Routing Analysis in Mixture-of-Experts Language Models](https://arxiv.org/abs/2605.07260)**　Yoon 等，arXiv 2026。
+
+  对应条目　[Expert Misrouting on Fragile Tokens](phenomena/routing-output.md#fragile-token-misrouting)
 
 <a id="paper-attentioncollapse"></a>
 

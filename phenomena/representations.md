@@ -101,3 +101,35 @@
 **证据范围**　该结果建立于简化的理论设置，并由合成数据和小规模真实语言实验支持。
 
 [Zhao 等（2024）](https://arxiv.org/abs/2408.15417)
+
+<a id="attention-output-collapse"></a>
+
+## Dimensional Collapse in Attention Outputs · 多头注意力写入残差流的向量有效维度偏低
+
+**观察对象**　所有注意力头合并、经过输出投影后、与残差相加前的向量。
+
+从许多 token 收集同层注意力块的写入，奇异值集中在部分方向。不同头的输出子空间有重叠，合并后的写入主要沿其中一部分方向变化。
+
+**怎么测**　对各 token 的写入堆叠成矩阵并按列中心化。以奇异值占总和的比例 p 计算有效秩 exp(−Σ p log p)，再除以隐藏宽度 d。在相同 token 上对照 MLP 写入与残差流。
+
+**证据范围**　Wang 等在多种模型和数据集上测得注意力写入的有效秩约为隐藏宽度的 60%，并考察了对稀疏自编码器的影响。该百分比指有效秩与宽度之比。
+
+[Wang 等（ICML 2026）](https://proceedings.mlr.press/v306/wang26bh.html)
+
+相关条目　[token 表示的秩坍缩](representations.md#token-rank) · [单头注意力矩阵的坍缩](attention.md#attention-collapse)
+
+<a id="token-embedding-degeneration"></a>
+
+## Token Embedding Degeneration · 词表输出嵌入向少数公共方向挤压
+
+**观察对象**　输出词嵌入矩阵中按词表 ID 排列的行向量。
+
+训练中，不同词的输出嵌入逐渐挤进狭窄的锥形区域。对稀有词嵌入的部分梯度作干预，可以同时改变高频词和稀有词的几何分布。
+
+**怎么测**　在训练检查点按语料词频把词表分组，跟踪原始词向量间的余弦、各组各向同性及生成时稀有词的使用量。将干预稀有词梯度的实验与相同训练配置对照。
+
+**证据范围**　Yu 等在语言建模实验中追踪到一个关键梯度分量，它将稀有词嵌入推离目标为非稀有词的上下文向量。这里每个观测点对应一个词表项，适合和上下文化隐藏表示的各向异性分开测量。
+
+[Yu 等（ACL 2022）](https://aclanthology.org/2022.acl-long.3/)
+
+相关条目　[上下文化表示的各向异性](representations.md#anisotropy)

@@ -157,3 +157,51 @@
 **证据范围**　Stolfo 等在最高 7B 的模型中观察到这类神经元。这里的熵是词表上的输出熵。
 
 [Stolfo 等（NeurIPS 2024）](https://proceedings.neurips.cc/paper_files/paper/2024/hash/e21955c93dede886af1d0d362c756757-Abstract-Conference.html)
+
+<a id="layernorm-outliers"></a>
+
+## LayerNorm Outlier Dimensions · 多个 LayerNorm 在相同坐标上出现异常参数
+
+**观察对象**　各层 LayerNorm 的仿射缩放 γ 与偏置 β。
+
+在 BERT 类模型中，若干固定坐标在多层 LayerNorm 中具有异常的缩放或偏置。跨层禁用极少数这样的坐标，就能显著破坏模型预测。
+
+**怎么测**　分别对每层的 γ、β 做坐标排序，找出跨层重复的离群坐标。把所选坐标的缩放和偏置同时置零，与禁用同等数量随机坐标时的掩码语言建模损失比较。
+
+**证据范围**　Kovaleva 等在 BERT 等模型上做了跨层参数干预。这里直接检查模型参数。应用于只有缩放项的 RMSNorm 时，需要按该架构重新验证。
+
+[Kovaleva 等（Findings of ACL-IJCNLP 2021）](https://aclanthology.org/2021.findings-acl.300/)
+
+相关条目　[隐藏状态的离群通道](activations.md#outlier-channels)
+
+<a id="frequency-neurons"></a>
+
+## Token Frequency Neurons · 沿词频方向调节下一词概率的神经元
+
+**观察对象**　FFN 神经元对整个词表 logits 的写入向量。
+
+某些神经元对每个候选词 logit 的影响随该词的对数频率变化。改变它的激活，会使预测向语料的一元词频分布靠近或远离。
+
+**怎么测**　对单个神经元实施消融或改变激活，计算每个词的 logit 变化量。去掉全词表共享的偏移后，与语料的对数词频比较，并按上下文复测。
+
+**证据范围**　Stolfo 等在同一研究中辨认出词频神经元和熵神经元。前者按词频有选择地调整候选词，后者主要通过末端 LayerNorm 的尺度调节整组 logits。
+
+[Stolfo 等（NeurIPS 2024）](https://proceedings.neurips.cc/paper_files/paper/2024/hash/e21955c93dede886af1d0d362c756757-Abstract-Conference.html)
+
+相关条目　[熵神经元](activations.md#entropy-neurons)
+
+<a id="dead-neurons"></a>
+
+## Dead Neurons · 在整个观测语料上始终未激活的神经元
+
+**观察对象**　固定 FFN 神经元跨样本、跨 token 的激活次数。
+
+在采用 ReLU 的 OPT 中，部分神经元在大规模、多样化文本上一次也没有激活，尤其集中在早期层。
+
+**怎么测**　逐神经元累计 ReLU 输出严格大于零的次数，逐层报告次数为零的比例，并记录语料域和 token 数。扩大样本，检查原先标为零的神经元是否被激活。
+
+**证据范围**　Voita 等比较了 OPT-125M 至 OPT-66B。有限语料只能给出观测期内的零激活。原目录的 Lazy Neuron Phenomenon 衡量的是给定一个 token 时有多少神经元活跃。
+
+[Voita 等（Findings of ACL 2024）](https://aclanthology.org/2024.findings-acl.75/)
+
+相关条目　[单个 token 的 FFN 激活稀疏性](activations.md#lazy-neurons)

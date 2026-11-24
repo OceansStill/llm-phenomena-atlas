@@ -101,3 +101,45 @@
 **证据范围**　论文在所测 BF16 计算实现中观察到首 token 的显著贡献。复现时要记录旋转角、旋转运算及点积各自的精度。
 
 [Wang 等（TMLR 2025）](https://arxiv.org/abs/2411.13476)
+
+<a id="inter-head-predictability"></a>
+
+## Inter-head Linear Predictability · 少数同层注意力头可以预测其他头
+
+**观察对象**　同一层、同一个 token 的不同注意力头的 Q、K 或 V 向量。
+
+给定少数参考头，用线性变换就能重建另一个头在同一 token 上的部分信号。模型预训练过程中，这种可预测性逐渐增强。
+
+**怎么测**　在一批文本上用参考头的 K 拟合目标头的 K，换留出文本报告每个目标头的 R²。对 Q、V 分开重复。使用 GQA 时直接提取未展开的 KV 头，并与随机初始化的同架构对照。
+
+**证据范围**　Shaikh 等研究 Llama、Falcon、OLMo 和 Qwen。在论文的 C4 实验中，用五个参考头预测 K 的平均 R² 约为 0.76。将预测值实际用于推理时，各模型掉分幅度不同，重建 V 通常带来更大损失。
+
+[Shaikh 等（arXiv 2026）](https://arxiv.org/abs/2603.13314)
+
+<a id="copy-suppression"></a>
+
+## Copy Suppression · 注意力头压低从上文照抄的候选词
+
+**观察对象**　较晚注意力头对候选 token 的 logit 写入。
+
+早期组件已经预测某个词，而且这个词出现在前文。部分后层头会关注它的先前位置，再压低它作为下一词的 logit。
+
+**怎么测**　在候选词出现过和未出现过的配对前缀上，记录早期预测、该头对先前位置的注意力以及它写向候选词 logit 的有符号贡献。消融该头，检查复制概率与预测损失怎样变化。
+
+**证据范围**　McDougall 等在 GPT-2 Small 的 L10H7 中追踪了这条路径。该头抑制部分过度自信的复制预测，在原模型的正常前向传播中改善了校准。
+
+[McDougall 等（BlackboxNLP 2024）](https://aclanthology.org/2024.blackboxnlp-1.22/)
+
+<a id="lost-in-the-middle"></a>
+
+## U-Shaped Positional Attention Bias / Lost in the Middle · 位于上下文中段的证据更容易被忽略
+
+**观察对象**　证据所在位置、输出 query 对证据的注意力，以及同一题的答案。
+
+把同一段证据从输入开头移到中间，再移到末尾，部分长上下文模型的检索或问答成绩呈 U 形。注意力分析也观察到两端位置获得额外权重。
+
+**怎么测**　固定问题、证据、总长度和干扰文档，只轮换证据位置并平衡干扰项次序。逐位置报告正确率，再统计作答时分给证据 span 的注意力，控制 span 长度。
+
+**证据范围**　Liu 等在多文档问答和键值检索中测试了位置效应。Hsieh 等进一步测量 U 形注意力偏置，并干预该偏置来检验它对长上下文利用的贡献。
+
+[Liu 等（TACL 2024）](https://aclanthology.org/2024.tacl-1.9/) · [Hsieh 等（Findings of ACL 2024）](https://aclanthology.org/2024.findings-acl.890/)
