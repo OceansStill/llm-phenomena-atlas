@@ -143,3 +143,64 @@
 **证据范围**　Liu 等在多文档问答和键值检索中测试了位置效应。Hsieh 等进一步测量 U 形注意力偏置，并干预该偏置来检验它对长上下文利用的贡献。
 
 [Liu 等（TACL 2024）](https://aclanthology.org/2024.tacl-1.9/) · [Hsieh 等（Findings of ACL 2024）](https://aclanthology.org/2024.findings-acl.890/)
+
+<a id="value-non-mixing"></a>
+
+## Value-Non-Mixing · 注意力读到的 value 都与当前位置相同
+
+**观察对象**　单个注意力头在位置 i 读取的 value 向量，以及输出投影前的加权和。
+
+如果每个获得非零注意力的位置 j 都满足 vⱼ = vᵢ，那么无论该行注意力多么分散，读出的加权和都等于 vᵢ。
+
+**怎么测**　可按注意力权重对各 vⱼ 到 vᵢ 的平方距离求和。这个量为零时满足原文的严格定义。用省略 BOS 的全重复 token 序列作对照，再在开头、第二或第三个位置插入异类 token，逐位置记录该量和隐藏状态范数。
+
+上面的加权平方距离是依定义给出的复测指标。直接比较加权和与 vᵢ 可能漏掉方向相反的偏差，因为它们在求和时可以抵消。
+
+**证据范围**　Kiya 等在第 4.3 节式（4）定义了这一状态。图 4 的 Llama-3.2-3B 实验中，完全重复的输入让多个位置分到注意力，各位置仍出现巨大激活。该实验隔离了 value 相同这一条件。
+
+[Kiya 等（EMNLP 2026）](https://aclanthology.org/2026.emnlp-main.1366/)
+
+相关条目　[注意力汇聚的位置](attention.md#attention-sinks) · [value 范数异常小](activations.md#value-drains) · [注意力加权值与实际写入](../diagnostics.md#weighted-values)
+
+<a id="rope-inversion-aliasing"></a>
+
+## RoPE Score Inversion and Aliasing · RoPE 打分反转与碰撞
+
+**观察对象**　固定旋转前的 query 和 key 后，单头在相对距离 m 处的 softmax 前打分。
+
+本条目把 Du 等分别命名的 Position Inversion、Position Aliasing、Token Inversion 和 Token Aliasing 合并为一项。前两种比较同一个 key 在不同距离的分数，后两种比较两个 key 的分数。
+
+下表用 $S_k(m)$ 表示固定查询对键 $k$ 在相对距离 $m$ 处的打分。
+
+| 原文术语 | 固定什么、改变什么 | 判据 |
+| --- | --- | --- |
+| Position Inversion | 键相同，从较近的 $m_1$ 换到较远的 $m_2$ | $S_k(m_1) < S_k(m_2)$。按论文的采样，从距离范围的前、后半段各取一个位置。 |
+| Position Aliasing | 键相同，比较两个不同距离 | $S_k(m_1) = S_k(m_2)$。 |
+| Token Inversion | 键为 $k_1,k_2$，两者总在同一距离比较 | 原先 $S_{k_1}(0) > S_{k_2}(0)$，换到距离 $m$ 后有 $S_{k_1}(m) < S_{k_2}(m)$。 |
+| Token Aliasing | 距离相同，比较两个不同的键 | $S_{k_1}(m) = S_{k_2}(m)$。 |
+
+**怎么测**　从同一注意力头取旋转前的 q、k，固定向量并扫描相对距离。按四种判据分别计数严格反转和分数相等的配对，记录 RoPE 基数、距离范围与计算精度。用更高精度重算碰撞的配对，检查舍入对结果的影响。
+
+**证据范围**　Du 等 v1 第 3.1、3.2、4.1、4.2 节和表 1 给出四种定义，图 4、5、7、8 用 Llama-3.1-8B 第 0 层第 0 头示例。碰撞指选定精度下的标量分数相等。论文对打分的分析本身不能给出整模型检索的错误率。
+
+[Du 等（arXiv 2026，v1）](https://arxiv.org/html/2605.15514v1)
+
+相关条目　[保持相对距离、整体平移 position IDs 的 BF16 实验](attention.md#bf16-rope)
+
+<a id="retrieval-heads"></a>
+
+## Retrieval Heads · 从远处证据定位并复制答案的注意力头
+
+**观察对象**　逐头观测生成答案时最大注意力的位置、该位置的 token 与当步输出。
+
+把同一段证据放到长上下文的不同位置，少数头会跟随证据，并在生成答案时指向包含相应 token 的位置。Wu 等还在使用短上下文预训练的基础模型中观察到了这些头。
+
+**怎么测**　将证据插入不同位置。若最大注意力落在证据内，且该位置的 token 与生成的 token 相同，记作命中。按证据长度归一化，逐头汇总检索分数。比较屏蔽高分头与屏蔽同等数量随机非检索头后的正确率。
+
+**同页概念 · Streaming Heads**　DuoAttention 为这类头只保留开头和最近窗口的 KV，给需要访问远处历史的头保留完整缓存。检验一个头是否依赖远处历史，可以比较限制其可见窗口前后的输出。
+
+**证据范围**　Wu 等按这套复制判据，在所测模型中识别出不到 5% 的头，屏蔽它们会损害检索。Xiao 等的 DuoAttention 按每个头对完整 KV 历史的需求区分 Retrieval Heads 和 Streaming Heads。Wu 等的 5% 只对应前一种判据。
+
+[Wu 等（ICLR 2025）](https://proceedings.iclr.cc/paper_files/paper/2025/hash/9b77f07301b1ef1fe810aae96c12cb7b-Abstract-Conference.html) · [Xiao 等（ICLR 2025）](https://proceedings.iclr.cc/paper_files/paper/2025/hash/5c1ddd2e59df46fd2aa85c833b1b36ed-Abstract-Conference.html)
+
+相关条目　[证据位置对长上下文作答的影响](attention.md#lost-in-the-middle) · [开头位置吸收注意力](attention.md#attention-sinks)

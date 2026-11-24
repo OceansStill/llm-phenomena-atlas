@@ -205,3 +205,19 @@
 [Voita 等（Findings of ACL 2024）](https://aclanthology.org/2024.findings-acl.75/)
 
 相关条目　[单个 token 的 FFN 激活稀疏性](activations.md#lazy-neurons)
+
+<a id="repetition-neurons"></a>
+
+## Repetition Neurons · 生成开始重复后激活增强的神经元
+
+**观察对象**　以生成片段首次开始重复的位置为基准，对齐各位置的 FFN 神经元激活。
+
+模型反复生成同一片段时，部分神经元在重复开始后比开始前更活跃。干预这些神经元会改变模型继续生成重复片段的频率。
+
+**怎么测**　在一批生成结果上比较重复起点前后的激活，选出差异较大的神经元。换一批原本会重复的样本，从原重复起点开始将这些神经元置零，并与置零同等数量随机神经元时仍出现重复的样本数比较。
+
+**证据范围**　Hiraoka 与 Inui 研究了三个英语预训练模型和一个日语预训练模型。图 4 显示，定向置零比随机置零更能减少重复。这个实验从原重复起点开始干预，直接检验的是重复能否继续。
+
+[Hiraoka 与 Inui（NAACL 2025）](https://aclanthology.org/2025.naacl-short.41/)
+
+相关条目　[对前文候选词的复制抑制](attention.md#copy-suppression)

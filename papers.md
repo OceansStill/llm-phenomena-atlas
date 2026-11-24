@@ -1,6 +1,6 @@
 # 原始论文索引
 
-共 66 篇。前七篇对应最初的阅读清单，其余按题名字母排序。每篇都链接到原文及本仓库相关条目。标注 arXiv 的条目使用预印本记录及首次发布年份。
+共 72 篇。前七篇对应最初的阅读清单，其余按题名字母排序。每篇都链接到原文及本仓库相关条目。标注 arXiv 的条目使用预印本记录及首次发布年份。
 
 [返回现象目录](README.md) · [测量与干预](diagnostics.md)
 
@@ -140,6 +140,12 @@
 
   对应条目　[Dimensional Collapse in Attention Outputs](phenomena/representations.md#attention-output-collapse)
 
+<a id="paper-duoattention"></a>
+
+- **[DuoAttention: Efficient Long-Context LLM Inference with Retrieval and Streaming Heads](https://proceedings.iclr.cc/paper_files/paper/2025/hash/5c1ddd2e59df46fd2aa85c833b1b36ed-Abstract-Conference.html)**　Xiao 等，ICLR 2025。
+
+  对应条目　[Retrieval Heads](phenomena/attention.md#retrieval-heads)
+
 <a id="paper-sinks"></a>
 
 - **[Efficient Streaming Language Models with Attention Sinks](https://arxiv.org/abs/2309.17453)**　Xiao 等，ICLR 2024。
@@ -151,6 +157,12 @@
 - **[Eliciting Latent Predictions from Transformers with the Tuned Lens](https://arxiv.org/abs/2303.08112)**　Belrose 等，arXiv 2023。
 
   对应条目　[逐层预测轨迹与答案翻转](diagnostics.md#lens)
+
+<a id="paper-highid"></a>
+
+- **[Emergence of a High-Dimensional Abstraction Phase in Language Transformers](https://proceedings.iclr.cc/paper_files/paper/2025/hash/57568e093cbe0a222de0334b36e83cf5-Abstract-Conference.html)**　Cheng 等，ICLR 2025。
+
+  对应条目　[High-Dimensional Abstraction Phase](phenomena/representations.md#high-dimensional-abstraction)
 
 <a id="paper-overthinking"></a>
 
@@ -189,6 +201,12 @@
 - **[Implicit Geometry of Next-token Prediction: From Language Sparsity Patterns to Model Representations](https://arxiv.org/abs/2408.15417)**　Zhao 等，2024。
 
   对应条目　[Subspace Collapse in Next-Token Prediction](phenomena/representations.md#subspace-collapse)
+
+<a id="paper-value-nonmix"></a>
+
+- **[It’s Not RoPE that Creates Sinks: The Role of Self-Concentration and Value-Non-Mixing in Attention](https://aclanthology.org/2026.emnlp-main.1366/)**　Kiya 等，EMNLP 2026。
+
+  对应条目　[Value-Non-Mixing](phenomena/attention.md#value-non-mixing)
 
 <a id="paper-premature"></a>
 
@@ -285,6 +303,24 @@
 - **[Rare Tokens Degenerate All Tokens: Improving Neural Text Generation via Adaptive Gradient Gating for Rare Token Embeddings](https://aclanthology.org/2022.acl-long.3/)**　Yu 等，ACL 2022。
 
   对应条目　[Token Embedding Degeneration](phenomena/representations.md#token-embedding-degeneration)
+
+<a id="paper-repneur"></a>
+
+- **[Repetition Neurons: How Do Language Models Produce Repetitions?](https://aclanthology.org/2025.naacl-short.41/)**　Hiraoka 与 Inui，NAACL 2025。
+
+  对应条目　[Repetition Neurons](phenomena/activations.md#repetition-neurons)
+
+<a id="paper-retrhead"></a>
+
+- **[Retrieval Head Mechanistically Explains Long-Context Factuality](https://proceedings.iclr.cc/paper_files/paper/2025/hash/9b77f07301b1ef1fe810aae96c12cb7b-Abstract-Conference.html)**　Wu 等，ICLR 2025。
+
+  对应条目　[Retrieval Heads](phenomena/attention.md#retrieval-heads)
+
+<a id="paper-ropedist"></a>
+
+- **[RoPE Distinguishes Neither Positions Nor Tokens in Long Contexts, Provably](https://arxiv.org/html/2605.15514v1)**　Du 等，arXiv 2026，v1。
+
+  对应条目　[RoPE Score Inversion and Aliasing](phenomena/attention.md#rope-inversion-aliasing)
 
 <a id="paper-expert-context"></a>
 

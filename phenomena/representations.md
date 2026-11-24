@@ -133,3 +133,19 @@
 [Yu 等（ACL 2022）](https://aclanthology.org/2022.acl-long.3/)
 
 相关条目　[上下文化表示的各向异性](representations.md#anisotropy)
+
+<a id="high-dimensional-abstraction"></a>
+
+## High-Dimensional Abstraction Phase · 不同文本的末位表示在中间层呈现较高的内在维度
+
+**观察对象**　同一层中，每段文本取末位 token 的隐藏向量，多段文本形成一个点云。
+
+沿深度追踪这批点的局部内在维度，一段中间层出现高值。论文发现，这一阶段的表示开始能够迁移到所测下游任务。
+
+**怎么测**　固定同一批文本，在各层收集末位 token 向量。用 GRIDE 根据每个点到第 2k 与第 k 个近邻的欧氏距离之比估计内在维度，沿层画出曲线，再改变邻域尺度 k 检查峰的位置。
+
+**证据范围**　Cheng 等在五个预训练语言模型、三个输入语料上比较了这一现象。此处每个点代表一段独立文本。Compression Valleys 测的是单段序列内多个 token 的表示矩阵的谱熵。
+
+[Cheng 等（ICLR 2025）](https://proceedings.iclr.cc/paper_files/paper/2025/hash/57568e093cbe0a222de0334b36e83cf5-Abstract-Conference.html)
+
+相关条目　[序列内 token 表示的谱熵低谷](representations.md#compression-valleys) · [序列内 token 表示的秩坍缩](representations.md#token-rank)
